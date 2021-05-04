@@ -32,12 +32,14 @@ class RegistrationActivity : AppCompatActivity() {
     lateinit var registrationViewModel: RegistrationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as MyApplication).appComponent.inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_holder, EnterDetailsFragment())
-            .commit()
+                .add(R.id.fragment_holder, EnterDetailsFragment())
+                .commit()
     }
 
     /**
@@ -45,9 +47,9 @@ class RegistrationActivity : AppCompatActivity() {
      */
     fun onDetailsEntered() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_holder, TermsAndConditionsFragment())
-            .addToBackStack(TermsAndConditionsFragment::class.java.simpleName)
-            .commit()
+                .replace(R.id.fragment_holder, TermsAndConditionsFragment())
+                .addToBackStack(TermsAndConditionsFragment::class.java.simpleName)
+                .commit()
     }
 
     /**
