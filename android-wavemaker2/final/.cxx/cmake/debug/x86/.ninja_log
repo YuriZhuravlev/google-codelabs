@@ -1,0 +1,6 @@
+# ninja log v5
+58	286	642013398	CMakeFiles/native-lib.dir/src/main/cpp/SoundRecordingUtilities.cpp.o	22aaa614f82ab953
+1	852	642013399	CMakeFiles/native-lib.dir/src/main/cpp/jni-bridge.cpp.o	fd2c5818bfcf01dd
+20	881	642013399	CMakeFiles/native-lib.dir/src/main/cpp/SoundRecording.cpp.o	21996d911325b400
+37	1290	642013399	CMakeFiles/native-lib.dir/src/main/cpp/AudioEngine.cpp.o	52dd169833b05ce3
+1291	1504	642013399	../../../../build/intermediates/cmake/debug/obj/x86/libnative-lib.so	7aa013d9611ee3f
