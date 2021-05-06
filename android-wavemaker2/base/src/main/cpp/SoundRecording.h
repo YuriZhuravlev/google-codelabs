@@ -48,7 +48,7 @@ private:
     std::atomic<int32_t> mWriteIndex{0};
     std::atomic<int32_t> mReadIndex{0};
     std::atomic<bool> mIsLooping{false};
-    // TODO: Add mData here
+    std::array<float, kMaxSamples> mData{0};
 };
 
 #endif //WAVEMAKER2_SAMPLE_H

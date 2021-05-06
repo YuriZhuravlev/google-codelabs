@@ -8,3 +8,5 @@ build
 /captures
 .externalNativeBuild
 .idea
+/base/.cxx/
+/final/.cxx/cmake/debug/

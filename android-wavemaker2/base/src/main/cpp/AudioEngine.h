@@ -47,7 +47,7 @@ private:
     std::atomic<bool> mIsPlaying = {false};
     AAudioStream *mPlaybackStream = nullptr;
     AAudioStream *mRecordingStream = nullptr;
-    // TODO add mSoundRecording
+    SoundRecording mSoundRecording;
 
     void stopStream(AAudioStream *stream) const;
 

@@ -72,12 +72,70 @@ StreamBuilder makeStreamBuilder() {
 }
 
 void AudioEngine::start() {
+    // playback
+    StreamBuilder playbackBuilder = makeStreamBuilder();
+    AAudioStreamBuilder_setFormat(playbackBuilder.get(), AAUDIO_FORMAT_PCM_FLOAT);
+    AAudioStreamBuilder_setChannelCount(playbackBuilder.get(), kChannelCountStereo);
+    AAudioStreamBuilder_setPerformanceMode(playbackBuilder.get(),
+                                           AAUDIO_PERFORMANCE_MODE_LOW_LATENCY);
+    AAudioStreamBuilder_setSharingMode(playbackBuilder.get(), AAUDIO_SHARING_MODE_EXCLUSIVE);
+    AAudioStreamBuilder_setDataCallback(playbackBuilder.get(), ::playbackDataCallback, this);
+    AAudioStreamBuilder_setErrorCallback(playbackBuilder.get(), ::errorCallback, this);
 
-    // TODO Create streams
+    aaudio_result_t result = AAudioStreamBuilder_openStream(playbackBuilder.get(),
+                                                            &mPlaybackStream);
+
+    if (result != AAUDIO_OK) {
+        __android_log_print(ANDROID_LOG_DEBUG, __func__,
+                            "Error opening playback stream %s",
+                            AAudio_convertResultToText(result));
+        return;
+    }
+
+    // получаем частоту
+    int32_t sampleRate = AAudioStream_getSampleRate(mPlaybackStream);
+
+    result = AAudioStream_requestStart(mPlaybackStream);
+    if (result != AAUDIO_OK) {
+        __android_log_print(ANDROID_LOG_DEBUG, __func__,
+                            "Error starting playback stream %s",
+                            AAudio_convertResultToText(result));
+        closeStream(&mPlaybackStream);
+        return;
+    }
+
+    // record
+    StreamBuilder recordingBuilder = makeStreamBuilder();
+    AAudioStreamBuilder_setDirection(recordingBuilder.get(), AAUDIO_DIRECTION_INPUT);
+    AAudioStreamBuilder_setPerformanceMode(recordingBuilder.get(),
+                                           AAUDIO_PERFORMANCE_MODE_LOW_LATENCY);
+    AAudioStreamBuilder_setSharingMode(recordingBuilder.get(), AAUDIO_SHARING_MODE_EXCLUSIVE);
+    AAudioStreamBuilder_setFormat(recordingBuilder.get(), AAUDIO_FORMAT_PCM_FLOAT);
+    AAudioStreamBuilder_setSampleRate(recordingBuilder.get(), sampleRate);
+    AAudioStreamBuilder_setChannelCount(recordingBuilder.get(), kChannelCountMono);
+    AAudioStreamBuilder_setDataCallback(recordingBuilder.get(), ::recordingDataCallback, this);
+    AAudioStreamBuilder_setErrorCallback(recordingBuilder.get(), ::errorCallback, this);
+
+    result = AAudioStreamBuilder_openStream(recordingBuilder.get(), &mRecordingStream);
+
+    if (result != AAUDIO_OK) {
+        __android_log_print(ANDROID_LOG_DEBUG, __func__,
+                            "Error opening recording stream %s",
+                            AAudio_convertResultToText(result));
+        closeStream(&mRecordingStream);
+        return;
+    }
+
+    result = AAudioStream_requestStart(mRecordingStream);
+    if (result != AAUDIO_OK) {
+        __android_log_print(ANDROID_LOG_DEBUG, __func__,
+                            "Error starting recording stream %s",
+                            AAudio_convertResultToText(result));
+        return;
+    }
 }
 
 void AudioEngine::stop() {
-
     stopStream(mPlaybackStream);
     closeStream(&mPlaybackStream);
     stopStream(mRecordingStream);
@@ -96,24 +154,34 @@ void AudioEngine::restart() {
 
 aaudio_data_callback_result_t AudioEngine::recordingCallback(float *audioData,
                                                              int32_t numFrames) {
-    // TODO Store the recorded data
+    if (mIsRecording) {
+        int32_t framesWritten = mSoundRecording.write(audioData, numFrames);
+        if (framesWritten == 0) {
+            mIsRecording = false;
+        }
+    }
     return AAUDIO_CALLBACK_RESULT_CONTINUE;
 }
 
 aaudio_data_callback_result_t AudioEngine::playbackCallback(float *audioData, int32_t numFrames) {
+    fillArrayWithZeros(audioData, numFrames * kChannelCountStereo);
 
-    // TODO Play the recorded data
+    if (mIsPlaying) {
+        int32_t framesRead = mSoundRecording.read(audioData, numFrames);
+        convertArrayMonoToStereo(audioData, framesRead);
+        if (framesRead < numFrames) mIsPlaying = false;
+    }
     return AAUDIO_CALLBACK_RESULT_CONTINUE;
 }
 
 void AudioEngine::setRecording(bool isRecording) {
-
-    // TODO Start and stop recording
+    if (isRecording) mSoundRecording.clear();
+    mIsRecording = isRecording;
 }
 
 void AudioEngine::setPlaying(bool isPlaying) {
-
-    // TODO Start and stop playback
+    if (isPlaying) mSoundRecording.setReadPositionToStart();
+    mIsPlaying = isPlaying;
 }
 
 void AudioEngine::stopStream(AAudioStream *stream) const {
@@ -146,5 +214,5 @@ void AudioEngine::closeStream(AAudioStream **stream) const {
 }
 
 void AudioEngine::setLooping(bool isOn) {
-    // TODO Toggle looped playback
+    mSoundRecording.setLooping(isOn);
 }
