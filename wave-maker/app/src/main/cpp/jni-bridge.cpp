@@ -15,7 +15,7 @@ Java_com_zhuravlev_wavemaker_MainActivity_stringFromJNI(
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_wavemaker_MainActivity_touchEvent(JNIEnv *env, jobject obj, jint action) {
+Java_com_zhuravlev_wavemaker_MainActivity_touchEvent(JNIEnv *env, jobject obj, jint action) {
     switch (action) {
         case AMOTION_EVENT_ACTION_DOWN:
             audioEngine->setToneOn(true);
@@ -29,12 +29,12 @@ Java_com_example_wavemaker_MainActivity_touchEvent(JNIEnv *env, jobject obj, jin
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_wavemaker_MainActivity_startEngine(JNIEnv *env, jobject /* this */) {
+Java_com_zhuravlev_wavemaker_MainActivity_startEngine(JNIEnv *env, jobject /* this */) {
     audioEngine->start();
 }
 
 JNIEXPORT void JNICALL
-Java_com_example_wavemaker_MainActivity_stopEngine(JNIEnv *env, jobject /* this */) {
+Java_com_zhuravlev_wavemaker_MainActivity_stopEngine(JNIEnv *env, jobject /* this */) {
     audioEngine->stop();
 }
 }
