@@ -1,0 +1,6 @@
+ninja: Entering directory `H:\google-codelabs\android-wavemaker2\final\.cxx\cmake\debug\x86'
+[1/5] Building CXX object CMakeFiles/native-lib.dir/src/main/cpp/SoundRecordingUtilities.cpp.o
+[2/5] Building CXX object CMakeFiles/native-lib.dir/src/main/cpp/jni-bridge.cpp.o
+[3/5] Building CXX object CMakeFiles/native-lib.dir/src/main/cpp/SoundRecording.cpp.o
+[4/5] Building CXX object CMakeFiles/native-lib.dir/src/main/cpp/AudioEngine.cpp.o
+[5/5] Linking CXX shared library ..\..\..\..\build\intermediates\cmake\debug\obj\x86\libnative-lib.so
