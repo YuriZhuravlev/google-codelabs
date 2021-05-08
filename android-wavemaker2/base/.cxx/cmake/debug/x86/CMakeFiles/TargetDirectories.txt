@@ -1,3 +1,0 @@
-H:/google-codelabs/android-wavemaker2/base/.cxx/cmake/debug/x86/CMakeFiles/native-lib.dir
-H:/google-codelabs/android-wavemaker2/base/.cxx/cmake/debug/x86/CMakeFiles/edit_cache.dir
-H:/google-codelabs/android-wavemaker2/base/.cxx/cmake/debug/x86/CMakeFiles/rebuild_cache.dir
