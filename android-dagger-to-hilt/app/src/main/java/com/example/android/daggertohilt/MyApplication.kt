@@ -17,15 +17,7 @@
 package com.example.android.daggertohilt
 
 import android.app.Application
-import com.example.android.daggertohilt.di.AppComponent
-import com.example.android.daggertohilt.di.DaggerAppComponent
+import dagger.hilt.android.HiltAndroidApp
 
-open class MyApplication : Application() {
-    val appComponent: AppComponent by lazy {
-        initializeComponent()
-    }
-
-    open fun initializeComponent(): AppComponent {
-        return DaggerAppComponent.factory().create(applicationContext)
-    }
-}
+@HiltAndroidApp
+open class MyApplication : Application()

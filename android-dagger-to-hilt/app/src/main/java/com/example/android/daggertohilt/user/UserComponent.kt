@@ -2,9 +2,10 @@ package com.example.android.daggertohilt.user
 
 import com.example.android.daggertohilt.main.MainActivity
 import com.example.android.daggertohilt.settings.SettingsActivity
+import com.example.android.daggertohilt.splash.SplashActivity
 import dagger.Subcomponent
 
-@LoggedUserScope
+//@LoggedUserScope
 @Subcomponent
 interface UserComponent {
 
@@ -15,4 +16,5 @@ interface UserComponent {
 
     fun inject(activity: MainActivity)
     fun inject(activity: SettingsActivity)
+    fun inject(activity: SplashActivity)
 }

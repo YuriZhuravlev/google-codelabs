@@ -22,7 +22,7 @@ import kotlin.random.Random
 /**
  * UserDataRepository contains user-specific data such as username and unread notifications.
  */
-@LoggedUserScope
+//@LoggedUserScope
 class UserDataRepository @Inject constructor(private val userManager: UserManager) {
 
     val username: String

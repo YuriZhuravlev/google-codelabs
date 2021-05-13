@@ -19,26 +19,20 @@ package com.example.android.daggertohilt.registration
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.android.daggertohilt.MyApplication
 import com.example.android.daggertohilt.R
 import com.example.android.daggertohilt.main.MainActivity
 import com.example.android.daggertohilt.registration.enterdetails.EnterDetailsFragment
 import com.example.android.daggertohilt.registration.termsandconditions.TermsAndConditionsFragment
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class RegistrationActivity : AppCompatActivity() {
 
     @Inject
     lateinit var registrationViewModel: RegistrationViewModel
 
-    @Inject
-    lateinit var registrationComponent: RegistrationComponent
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        registrationComponent =
-            (application as MyApplication).appComponent.registrationComponent().create()
-        registrationComponent.inject(this)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 

@@ -1,9 +1,10 @@
 package com.example.android.daggertohilt.di
 
-import com.example.android.daggertohilt.login.LoginComponent
-import com.example.android.daggertohilt.registration.RegistrationComponent
 import com.example.android.daggertohilt.user.UserComponent
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-@Module(subcomponents = [RegistrationComponent::class, LoginComponent::class, UserComponent::class])
+@InstallIn(SingletonComponent::class)
+@Module(subcomponents = [UserComponent::class])
 class AppSubcomponents

@@ -20,7 +20,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.example.android.daggertohilt.MyApplication
 import com.example.android.daggertohilt.R
 import com.example.android.daggertohilt.login.LoginActivity
 import javax.inject.Inject
@@ -31,9 +30,6 @@ class SettingsActivity : AppCompatActivity() {
     lateinit var settingsViewModel: SettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val userManager = (application as MyApplication).appComponent.userManager()
-        userManager.userComponent!!.inject(this)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 

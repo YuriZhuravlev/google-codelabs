@@ -3,12 +3,13 @@ package com.example.android.daggertohilt.splash
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.android.daggertohilt.MyApplication
 import com.example.android.daggertohilt.login.LoginActivity
 import com.example.android.daggertohilt.main.MainActivity
 import com.example.android.daggertohilt.registration.RegistrationActivity
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
     @Inject
     lateinit var splashViewModel: SplashViewModel
@@ -19,8 +20,6 @@ class SplashActivity : AppCompatActivity() {
      * If this User is logged in, MainActivity will be launched.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
-        (application as MyApplication).appComponent.inject(this)
-
         super.onCreate(savedInstanceState)
         with(splashViewModel.userManager) {
             if (!this.isUserLoggedIn()) {

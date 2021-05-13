@@ -25,7 +25,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
-import com.example.android.daggertohilt.MyApplication
 import com.example.android.daggertohilt.R
 import com.example.android.daggertohilt.main.MainActivity
 import com.example.android.daggertohilt.registration.RegistrationActivity
@@ -39,8 +38,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var errorTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (application as MyApplication).appComponent.loginComponent().create().inject(this)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
