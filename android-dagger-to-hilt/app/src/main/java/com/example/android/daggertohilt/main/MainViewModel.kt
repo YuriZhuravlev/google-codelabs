@@ -16,14 +16,18 @@
 
 package com.example.android.daggertohilt.main
 
+import androidx.lifecycle.ViewModel
 import com.example.android.daggertohilt.user.UserDataRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 /**
  * MainViewModel is the ViewModel that [MainActivity] uses to
  * obtain information of what to show on the screen.
  */
-class MainViewModel @Inject constructor(private val userDataRepository: UserDataRepository) {
+@HiltViewModel
+class MainViewModel @Inject constructor(private val userDataRepository: UserDataRepository) :
+    ViewModel() {
 
     val welcomeText: String
         get() = "Hello ${userDataRepository.username}!"

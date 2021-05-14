@@ -21,16 +21,15 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.android.daggertohilt.R
 import com.example.android.daggertohilt.settings.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var mainViewModel: MainViewModel
+    private lateinit var mainViewModel: MainViewModel //by viewModels()
 
     /**
      * If the User is not registered, RegistrationActivity will be launched,
@@ -39,6 +38,8 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
         setContentView(R.layout.activity_main)
         setupViews()
     }

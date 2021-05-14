@@ -25,20 +25,23 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.android.daggertohilt.R
 import com.example.android.daggertohilt.main.MainActivity
 import com.example.android.daggertohilt.registration.RegistrationActivity
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var loginViewModel: LoginViewModel
+    private lateinit var loginViewModel: LoginViewModel// by viewModels()
 
     private lateinit var errorTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
         setContentView(R.layout.activity_login)
 
         // Creates ViewModel and listens for the loginState LiveData

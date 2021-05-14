@@ -26,19 +26,19 @@ import com.example.android.daggertohilt.R
 import com.example.android.daggertohilt.registration.RegistrationActivity
 import com.example.android.daggertohilt.registration.RegistrationViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class TermsAndConditionsFragment : Fragment() {
 
-    @Inject
-    lateinit var registrationViewModel: RegistrationViewModel
+    private lateinit var registrationViewModel: RegistrationViewModel// by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        registrationViewModel = (activity as RegistrationActivity).registrationViewModel
+
         val view = inflater.inflate(R.layout.fragment_terms_and_conditions, container, false)
 
         view.findViewById<Button>(R.id.next).setOnClickListener {

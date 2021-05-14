@@ -26,11 +26,11 @@ import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.android.daggertohilt.R
 import com.example.android.daggertohilt.registration.RegistrationActivity
 import com.example.android.daggertohilt.registration.RegistrationViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class EnterDetailsFragment : Fragment() {
@@ -44,25 +44,25 @@ class EnterDetailsFragment : Fragment() {
      * They could get combined but for the sake of the codelab, we're separating them so we have
      * different ViewModels with different lifecycles.
      */
-    @Inject
-    lateinit var registrationViewModel: RegistrationViewModel
+    private lateinit var registrationViewModel: RegistrationViewModel //by activityViewModels()
 
-    @Inject
-    lateinit var enterDetailsViewModel: EnterDetailsViewModel
+    private lateinit var enterDetailsViewModel: EnterDetailsViewModel //by viewModels()
 
     private lateinit var errorTextView: TextView
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        registrationViewModel = (activity as RegistrationActivity).registrationViewModel
+        enterDetailsViewModel = ViewModelProvider(this).get(EnterDetailsViewModel::class.java)
         val view = inflater.inflate(R.layout.fragment_enter_details, container, false)
 
-        enterDetailsViewModel.enterDetailsState.observe(this,
+        enterDetailsViewModel.enterDetailsState.observe(
+            this,
             Observer<EnterDetailsViewState> { state ->
                 when (state) {
                     is EnterDetailsSuccess -> {
