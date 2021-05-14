@@ -30,24 +30,19 @@ private const val PASSWORD_SUFFIX = "password"
 @Singleton
 class UserManager @Inject constructor(
     private val storage: Storage,
-    private val userComponentFactory: UserComponent.Factory
+    private val userDataRepository: UserDataRepository
 ) {
-
-    var userComponent: UserComponent? = null
-        private set
-
-
     val username: String
         get() = storage.getString(REGISTERED_USER)
 
-    fun isUserLoggedIn() = userComponent != null
+    fun isUserLoggedIn() = userDataRepository.username != null
 
     fun isUserRegistered() = storage.getString(REGISTERED_USER).isNotEmpty()
 
     fun registerUser(username: String, password: String) {
         storage.setString(REGISTERED_USER, username)
         storage.setString("$username$PASSWORD_SUFFIX", password)
-        userJustLoggedIn()
+        userJustLoggedIn(username)
     }
 
     fun loginUser(username: String, password: String): Boolean {
@@ -57,12 +52,12 @@ class UserManager @Inject constructor(
         val registeredPassword = storage.getString("$username$PASSWORD_SUFFIX")
         if (registeredPassword != password) return false
 
-        userJustLoggedIn()
+        userJustLoggedIn(username)
         return true
     }
 
     fun logout() {
-        userComponent = null
+        userDataRepository.cleanUp()
     }
 
     fun unregister() {
@@ -72,7 +67,7 @@ class UserManager @Inject constructor(
         logout()
     }
 
-    private fun userJustLoggedIn() {
-        userComponent = userComponentFactory.create()
+    private fun userJustLoggedIn(username: String) {
+        userDataRepository.initData(username)
     }
 }
